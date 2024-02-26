@@ -7,9 +7,9 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '3D China Metro',
-  description: '中国城市地铁3D图',
-  keywords: []
+  title: 'Three.js Demos',
+  description: 'Three.js Demos',
+  keywords: ['three.js', 'react-three-fiber', 'demos']
 }
 
 export default function RootLayout({

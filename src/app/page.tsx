@@ -13,8 +13,8 @@ export default function PageLayout() {
       >
         <div className='mx-12 flex flex-row justify-center'>
           <h1 className='text-4xl'>
-            <strong className='font-bold'>react three fiber</strong>
-            {' demos'}
+            <strong className='font-bold'>Three.js</strong>
+            {' Demos'}
           </h1>
         </div>
       </header>
@@ -31,13 +31,15 @@ export default function PageLayout() {
                 key={project.slug}
                 className='h-[480px] w-[300px] rounded-md shadow-lg duration-300 hover:scale-105'
               >
-                <Image
-                  className='rounded-t-md'
-                  src={`/${project.slug}/thumbnail.png`}
-                  alt={project.slug}
-                  width={300}
-                  height={300}
-                />
+                <div className='relative h-[300px] w-[300px]'>
+                  <Image
+                    className='rounded-t-md'
+                    src={`/${project.slug}/thumbnail.png`}
+                    alt={project.slug}
+                    fill
+                  />
+                </div>
+
                 <div className='flex h-[calc(100%-300px)] flex-col justify-between p-4'>
                   <h2 className='text-xl font-bold'>{project.name}</h2>
                   <div className='flex flex-col justify-end gap-2'>
