@@ -16,5 +16,11 @@
     "name": "3D Map Chart",
     "file": "",
     "description": ""
+  },
+  {
+    "slug": "snap-to-grid",
+    "name": "Snap to Grid",
+    "file": "",
+    "description": ""
   }
 ]
