@@ -22,6 +22,7 @@
     "leva": "^0.9.35",
     "lodash": "^4.17.21",
     "next": "14.1.1-canary.58",
+    "r3f-perf": "^7.1.2",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.2.1",

@@ -18,5 +18,9 @@
   {
     "slug": "tiny-minecraft",
     "name": "Tiny Minecraft"
+  },
+  {
+    "slug": "earth",
+    "name": "Earth"
   }
 ]
