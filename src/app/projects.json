@@ -1,26 +1,22 @@
 [
   {
     "slug": "basic",
-    "name": "Basic",
-    "file": "",
-    "description": ""
+    "name": "Basic"
   },
   {
     "slug": "3d-terrain",
-    "name": "3D Terrain",
-    "file": "",
-    "description": ""
+    "name": "3D Terrain"
   },
   {
     "slug": "3d-map-chart",
-    "name": "3D Map Chart",
-    "file": "",
-    "description": ""
+    "name": "3D Map Chart"
   },
   {
     "slug": "snap-to-grid",
-    "name": "Snap to Grid",
-    "file": "",
-    "description": ""
+    "name": "Snap to Grid"
+  },
+  {
+    "slug": "tiny-minecraft",
+    "name": "Tiny Minecraft"
   }
 ]
