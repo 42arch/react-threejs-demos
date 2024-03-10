@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import { Environment, OrbitControls, useTexture } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useControls } from 'leva'
@@ -71,7 +71,9 @@ const Experience = () => {
         shadow-camera-near={0.1}
         shadow-camera-far={8}
       />
-      <Earth />
+      <Suspense fallback={null}>
+        <Earth />
+      </Suspense>
     </>
   )
 }

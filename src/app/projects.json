@@ -22,5 +22,9 @@
   {
     "slug": "earth",
     "name": "Earth"
+  },
+  {
+    "slug": "shoe-configurator",
+    "name": "Shoe Configurator"
   }
 ]
