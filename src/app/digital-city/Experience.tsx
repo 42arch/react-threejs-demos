@@ -1,6 +1,5 @@
-import { Grid, OrbitControls, useFBX } from '@react-three/drei'
+import { OrbitControls, useFBX } from '@react-three/drei'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
-// import CustomShaderMaterial from 'three-custom-shader-material'
 import vertexShader from './shaders/buildingsCustomShaderMaterial.vert'
 import fragmentShader from './shaders/buildingsCustomShaderMaterial.frag'
 import {
@@ -8,28 +7,145 @@ import {
   Color,
   DoubleSide,
   EdgesGeometry,
+  LineSegments,
   Mesh,
-  MeshPhongMaterial
+  MeshPhongMaterial,
+  ShaderMaterial
 } from 'three'
 import { useControls } from 'leva'
 import { useEffect, useRef } from 'react'
-import { LineSegmentsGeometry } from 'three/examples/jsm/Addons.js'
+import {
+  LineMaterial,
+  LineSegments2,
+  LineSegmentsGeometry
+} from 'three/examples/jsm/Addons.js'
+import RadarA from './RadarA'
+import { useFrame } from '@react-three/fiber'
+
+const BulidingsLines = ({
+  buidings,
+  wireframe,
+  color,
+  width,
+  opacity
+}: {
+  buidings: Mesh<BufferGeometry, CustomShaderMaterial>
+  wireframe: boolean
+  color: string
+  width: number
+  opacity: number
+}) => {
+  const linesRef = useRef<LineSegments2 | LineSegments>(null!)
+
+  if (wireframe) {
+    const edges = new EdgesGeometry(buidings.geometry)
+    const geometry = new LineSegmentsGeometry()
+    const wideEdges = geometry.fromEdgesGeometry(edges)
+    const edgeMaterial = new LineMaterial({
+      color: color,
+      linewidth: width,
+      opacity: opacity,
+      transparent: true,
+      depthWrite: true,
+      depthTest: true
+    })
+    edgeMaterial.resolution.set(window.innerWidth, window.innerHeight)
+    linesRef.current = new LineSegments2(wideEdges, edgeMaterial)
+    linesRef.current.applyMatrix4(buidings.matrix.clone())
+  } else {
+    // not used yet
+    const geometry = new EdgesGeometry(buidings.geometry)
+    const surroundLineMaterial = new ShaderMaterial({
+      transparent: true,
+      uniforms: {
+        uColor: {
+          value: new Color(color)
+        },
+        uOpacity: {
+          value: opacity
+        }
+      },
+      vertexShader: `
+        void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: ` 
+        uniform vec3 uColor;
+				uniform float uOpacity;
+        void main() {
+          gl_FragColor = vec4(uColor, uOpacity);
+        }
+      `
+    })
+    linesRef.current = new LineSegments(geometry, surroundLineMaterial)
+    linesRef.current.applyMatrix4(buidings.matrix.clone())
+    linesRef.current.renderOrder = 1000
+  }
+
+  return <primitive object={linesRef.current}></primitive>
+}
 
 const Experience = () => {
   const model = useFBX('./digital-city/shanghai.FBX')
 
-  const { color, opacity, landColor } = useControls('building', {
-    color: {
-      value: '#ffff00'
+  const { wireframe, lineColor, lineOpacity, lineWidth } = useControls(
+    'buildings-lines',
+    {
+      wireframe: {
+        value: true
+      },
+      lineColor: {
+        value: '#000000'
+      },
+      lineWidth: {
+        value: 0.5,
+        max: 6,
+        min: 0,
+        step: 0.01
+      },
+      lineOpacity: {
+        value: 1,
+        max: 1,
+        min: 0,
+        step: 0.01
+      }
+    }
+  )
+  const { show, pulse, color, topColor, opacity, landColor, gradient } =
+    useControls('building', {
+      show: {
+        value: true
+      },
+      pulse: {
+        value: true
+      },
+      color: {
+        value: '#7600ff'
+      },
+      topColor: {
+        value: '#24db3f'
+      },
+      opacity: {
+        value: 0.8,
+        min: 0,
+        max: 1,
+        step: 0.01
+      },
+      landColor: {
+        value: '#112233'
+      },
+      gradient: {
+        value: true
+      }
+    })
+
+  const { speed, radarAColor } = useControls('radar-A', {
+    speed: {
+      value: 300
     },
-    opacity: {
-      value: 0.9,
-      min: 0,
-      max: 1,
-      step: 0.01
-    },
-    landColor: {
-      value: '#112233'
+    radarAColor: {
+      value: '#00c0ff'
     }
   })
 
@@ -66,13 +182,13 @@ const Experience = () => {
             value: new Color('#ffffff')
           },
           uTopColor: {
-            value: new Color('#24db3f')
+            value: new Color(topColor)
           },
           uTime: {
-            value: 20
+            value: 0
           },
           uGradient: {
-            value: true
+            value: gradient
           }
         },
         depthTest: true,
@@ -96,10 +212,18 @@ const Experience = () => {
 
   useEffect(() => {
     buildingsRef.current.material.uniforms.uColor.value.setStyle(color)
+    buildingsRef.current.material.uniforms.uTopColor.value.setStyle(topColor)
     buildingsRef.current.material.uniforms.uOpacity.value = opacity
+    buildingsRef.current.material.uniforms.uGradient.value = gradient
 
     landRef.current.material.color.setStyle(landColor)
-  }, [color, opacity, landColor])
+  }, [color, opacity, landColor, gradient, topColor])
+
+  useFrame((_, delta) => {
+    if (pulse) {
+      buildingsRef.current.material.uniforms.uTime.value += delta
+    }
+  })
 
   return (
     <>
@@ -112,7 +236,17 @@ const Experience = () => {
         color='#ffffff'
       />
 
-      <primitive object={model}></primitive>
+      {show && <primitive object={model} />}
+      {wireframe && (
+        <BulidingsLines
+          wireframe={wireframe}
+          buidings={buildingsRef.current}
+          color={lineColor}
+          width={lineWidth}
+          opacity={lineOpacity}
+        />
+      )}
+
       <gridHelper
         receiveShadow
         castShadow

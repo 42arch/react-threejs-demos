@@ -1,0 +1,6 @@
+declare module '*.svg'
+declare module '*.glsl'
+declare module '*.vert'
+declare module '*.frag'
+declare module '*.fs.svg'
+declare module '*.vs.glsl'
