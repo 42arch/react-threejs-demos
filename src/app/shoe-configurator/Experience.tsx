@@ -45,6 +45,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe.geometry}
             material={materials.laces}
             material-color={laces}
@@ -52,6 +53,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_1.geometry}
             material={materials.mesh}
             material-color={mesh}
@@ -59,6 +61,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_2.geometry}
             material={materials.caps}
             material-color={caps}
@@ -66,6 +69,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_3.geometry}
             material={materials.inner}
             material-color={inner}
@@ -73,6 +77,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_4.geometry}
             material={materials.sole}
             material-color={sole}
@@ -80,6 +85,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_5.geometry}
             material={materials.stripes}
             material-color={stripes}
@@ -87,6 +93,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_6.geometry}
             material={materials.band}
             material-color={band}
@@ -94,6 +101,7 @@ const Shoe = () => {
           <mesh
             castShadow
             receiveShadow
+            //@ts-expect-error
             geometry={nodes.shoe_7.geometry}
             material={materials.patch}
             material-color={patch}
