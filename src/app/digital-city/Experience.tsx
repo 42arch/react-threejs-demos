@@ -19,7 +19,6 @@ import {
   LineSegments2,
   LineSegmentsGeometry
 } from 'three/examples/jsm/Addons.js'
-import RadarA from './RadarA'
 import { useFrame } from '@react-three/fiber'
 
 const BulidingsLines = ({
@@ -140,14 +139,14 @@ const Experience = () => {
       }
     })
 
-  const { speed, radarAColor } = useControls('radar-A', {
-    speed: {
-      value: 300
-    },
-    radarAColor: {
-      value: '#00c0ff'
-    }
-  })
+  // const { speed, radarAColor } = useControls('radar-A', {
+  //   speed: {
+  //     value: 300
+  //   },
+  //   radarAColor: {
+  //     value: '#00c0ff'
+  //   }
+  // })
 
   const buildingsRef = useRef<Mesh<BufferGeometry, CustomShaderMaterial>>(null!)
   const landRef = useRef<Mesh<BufferGeometry, MeshPhongMaterial>>(null!)
@@ -160,6 +159,7 @@ const Experience = () => {
       geometry.computeBoundingSphere()
 
       const { max, min } = geometry.boundingBox!
+      // @ts-expect-error
       if (buildingsRef.current.material.__csm) {
         return
       }
